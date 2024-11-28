@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Adivinhação de Cores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .color-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    .color-item {
+      margin: 5px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #fff;
+      background-color: #333;
+      transition: transform 0.2s;
+    }
+    .color-item:hover {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jogo de Adivinhação de Cores</h1>
+  <p>Escolha uma cor clicando em uma das opções abaixo!</p>
+  <ul id="colorOptions" class="color-list"></ul>
+  <p id="feedback"></p>
+  <button onclick="restartGame()">Reiniciar Jogo</button>
+
+  <script>
+    let allColors = [
+      "AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", 
+      "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", 
+      "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", 
+      "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGreen", "DarkKhaki", "DarkMagenta", 
+      "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", 
+      "DarkSlateBlue", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", 
+      "DimGray", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", 
+      "GhostWhite", "Gold", "GoldenRod", "Gray", "Green", "GreenYellow", "HoneyDew", "HotPink", 
+      "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", 
+      "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", 
+      "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", 
+      "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", 
+      "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", 
+      "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", 
+      "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", 
+      "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", 
+      "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", 
+      "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", 
+      "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "Snow", 
+      "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", 
+      "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"
+    ];
+
+    let selectedColors = [];
+    let secretColor = "";
+
+    function initializeGame() {
+      // Selecionar 10 cores aleatórias
+      selectedColors = allColors.sort(() => 0.5 - Math.random()).slice(0, 10);
+      secretColor = selectedColors[Math.floor(Math.random() * selectedColors.length)];
+
+      console.log("Cores disponíveis:", selectedColors);
+      console.log("Cor secreta:", secretColor);
+
+      // Exibir as cores na tela
+      const colorOptions = document.getElementById("colorOptions");
+      colorOptions.innerHTML = ""; // Limpar lista anterior
+      selectedColors.forEach(color => {
+        const li = document.createElement("li");
+        li.textContent = color;
+        li.className = "color-item";
+        li.style.backgroundColor = color;
+        li.onclick = () => checkGuess(color);
+        colorOptions.appendChild(li);
+      });
+
+      // Resetar feedback e plano de fundo
+      document.getElementById("feedback").textContent = "";
+      document.body.style.backgroundColor = "#fff";
+    }
+
+    function checkGuess(inputColor) {
+      const feedback = document.getElementById("feedback");
+
+      if (inputColor === secretColor) {
+        document.body.style.backgroundColor = secretColor;
+        feedback.textContent = `Parabéns! Você acertou! A cor é ${secretColor}.`;
+      } else {
+        const isBefore = inputColor.toLowerCase() < secretColor.toLowerCase();
+        feedback.textContent = `Errado! A cor secreta está ${isBefore ? "depois" : "antes"} de ${inputColor} na ordem alfabética.`;
+      }
+    }
+
+    function restartGame() {
+      initializeGame();
+    }
+
+    // Inicializar o jogo na primeira execução
+    initializeGame();
+  </script>
+</body>
+</html>
