@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> //J
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 20px;
+      padding: 20px;//J
     }
     .color-list {
       display: flex;
@@ -23,7 +23,7 @@
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      cursor: pointer;
+      cursor: pointer;//J
       font-weight: bold;
       color: #fff;
       background-color: #333;
@@ -43,11 +43,12 @@
       font-size: 16px;
       cursor: pointer;
       background-color: #007BFF;
-      color: #fff;
+      color: #fff;//J
       border: none;
       border-radius: 5px;
       transition: background-color 0.3s;
     }
+    //Juan
     button:hover {
       background-color: #0056b3;
     }
@@ -61,6 +62,7 @@
   <button onclick="restartGame()">Reiniciar Jogo</button>
 
   <script>
+    //Juan
     let allColors = [
       "AliceBlue", "AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", 
       "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", 
@@ -82,7 +84,7 @@
       "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", 
       "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "Snow", 
       "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", 
-      "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"
+      "Wheat", "White", "WhiteSmoke", "Yellow", "YellowGreen"//J
     ];
 
     let selectedColors = [];
@@ -102,16 +104,17 @@
       selectedColors.forEach(color => {
         const li = document.createElement("li");
         li.textContent = color;
+        //Juan
         li.className = "color-item";
         li.style.backgroundColor = color;
         li.onclick = () => checkGuess(color);
         colorOptions.appendChild(li);
       });
 
-      // Resetar feedback e plano de fundo
+      // Resetar feedback e plano de fundo (Juan)
       document.getElementById("feedback").textContent = "";
       document.body.style.backgroundColor = "#fff";
-    }
+    }//J
 
     function checkGuess(inputColor) {
       const feedback = document.getElementById("feedback");
@@ -119,9 +122,9 @@
       if (inputColor === secretColor) {
         document.body.style.backgroundColor = secretColor;
         feedback.textContent = `Parabéns! Você acertou! A cor é ${secretColor}.`;
-      } else {
+      } else {//J
         const isBefore = inputColor.toLowerCase() < secretColor.toLowerCase();
-        feedback.textContent = `Errado! A cor secreta está ${isBefore ? "depois" : "antes"} de ${inputColor} na ordem alfabética.`;
+        feedback.textContent = `Errado! A cor secreta está ${isBefore ? "depois" : "antes"} de ${inputColor} na ordem alfabética.`;//Juan
       }
     }
 
@@ -133,4 +136,4 @@
     initializeGame();
   </script>
 </body>
-</html>
+</html>//Juan
